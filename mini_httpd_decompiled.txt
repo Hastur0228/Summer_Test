@@ -1,0 +1,1009 @@
+// Ghidra Decompilation Output
+// Program: mini_httpd
+// Function: FUN_00407a28
+// Generated on: Fri Aug 01 15:58:38 CST 2025
+=======================================
+
+
+Function: FUN_00407a28 at 00407a28
+Decompiled content:
+
+/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
+
+void FUN_00407a28(void)
+
+{
+  int iVar3;
+  char *pcVar4;
+  stat64 *psVar5;
+  char *pcVar6;
+  __pid_t __pid;
+  size_t sVar7;
+  in_addr_t iVar8;
+  undefined1 *puVar9;
+  stat64 *psVar10;
+  in_addr_t iVar11;
+  in_addr_t iVar12;
+  int iVar13;
+  tm *__tp;
+  int iVar14;
+  undefined4 uVar15;
+  stat64 *psVar16;
+  stat64 *psVar17;
+  char *pcVar18;
+  uint uVar19;
+  stat64 *psVar20;
+  code *pcVar21;
+  undefined **ppuVar22;
+  undefined8 uVar23;
+  dirent64 **local_5ec8;
+  undefined4 local_5ec4;
+  undefined4 local_5ec0;
+  socklen_t local_5ebc;
+  char local_5eb8 [24];
+  char acStack_5ea0 [20];
+  in_addr local_5e8c;
+  stat64 asStack_5e60 [39];
+  undefined1 auStack_4e60 [10000];
+  stat64 asStack_2750 [96];
+  char *local_40;
+  FILE *local_3c;
+  stat64 *local_38;
+  undefined1 *local_34;
+  stat64 *local_30;
+  bool bVar2;
+  char cVar1;
+  
+  memcpy(local_5eb8,&PTR_s_setup_cgi_0041e030,0x18);
+  signal(0xe,FUN_0040560c);
+  alarm(0x3c);
+  DAT_004201bc = 0;
+  DAT_004201cc = (stat64 *)0x0;
+  DAT_004201d8 = 0;
+  DAT_004201e0 = 0xffffffff;
+  DAT_004201e8 = (stat64 *)0x0;
+  DAT_004201e4 = 0xffffffff;
+  DAT_004201f4 = -1;
+  DAT_00420200 = 0xffffffff;
+  DAT_004201d0 = "";
+  DAT_00420204 = "";
+  DAT_00420208 = (stat64 *)&DAT_0040be98;
+  DAT_0042020c = "";
+  DAT_0041e1fc = 1;
+  DAT_004201c0 = 0;
+  DAT_004201c4 = (stat64 *)0x0;
+  DAT_004201c8 = (stat64 *)0x0;
+  DAT_004201d4 = (char *)0x0;
+  DAT_004201ec = (char *)0x0;
+  DAT_004201f0 = (char *)0x0;
+  DAT_004201f8 = (char *)0x0;
+  DAT_004201fc = (stat64 *)0x0;
+  if (DAT_0041ef58 != 0) {
+    DAT_00420210 = SSL_new(DAT_0041f16c);
+    SSL_set_fd(DAT_00420210,DAT_00420170);
+    iVar3 = SSL_accept(DAT_00420210);
+    iVar14 = 1;
+    if (iVar3 == 0) goto LAB_0040a394;
+  }
+  DAT_00420214 = 0;
+  DAT_00420218 = 0;
+  while (iVar3 = FUN_004054b4(asStack_2750,10000), 0 < iVar3) {
+    local_30 = (stat64 *)iVar3;
+    alarm(0x3c);
+    FUN_00403b3c(&DAT_0042021c,&DAT_00420214,&DAT_00420220,asStack_2750,local_30);
+    local_30 = DAT_0042021c;
+    pcVar4 = strstr((char *)DAT_0042021c,"\r\n\r\n");
+    if ((pcVar4 != (char *)0x0) || (pcVar4 = strstr((char *)local_30,"\n\n"), pcVar4 != (char *)0x0)
+       ) break;
+  }
+  pcVar4 = (char *)FUN_004036d0();
+  if ((pcVar4 != (char *)0x0) &&
+     (psVar5 = (stat64 *)strpbrk(pcVar4," \t\n\r"), DAT_004201c4 = psVar5, psVar5 != (stat64 *)0x0))
+  {
+    DAT_004201c4 = (stat64 *)((int)&psVar5->st_dev + 1);
+    *(undefined1 *)&psVar5->st_dev = 0;
+    pcVar6 = strstr((char *)DAT_004201c4,"ptimeout.cgi");
+    if (pcVar6 == (char *)0x0) {
+      while ((pcVar6 = (char *)FUN_004036d0(), pcVar6 != (char *)0x0 && (*pcVar6 != '\0'))) {
+        iVar3 = strncasecmp(pcVar6,"Authorization:",0xe);
+        if (iVar3 == 0) {
+          sVar7 = strspn(pcVar6 + 0xe," \t");
+          DAT_004201ec = pcVar6 + 0xe + sVar7;
+        }
+        else {
+          iVar3 = strncasecmp(pcVar6,"Content-Length:",0xf);
+          if (iVar3 == 0) {
+            sVar7 = strspn(pcVar6 + 0xf," \t");
+            DAT_004201f4 = atol(pcVar6 + 0xf + sVar7);
+          }
+          else {
+            iVar3 = strncasecmp(pcVar6,"Content-Type:",0xd);
+            if (iVar3 == 0) {
+              sVar7 = strspn(pcVar6 + 0xd," \t");
+              DAT_004201f0 = pcVar6 + 0xd + sVar7;
+            }
+            else {
+              iVar3 = strncasecmp(pcVar6,"Cookie:",7);
+              if (iVar3 == 0) {
+                sVar7 = strspn(pcVar6 + 7," \t");
+                DAT_004201f8 = pcVar6 + 7 + sVar7;
+              }
+              else {
+                iVar3 = strncasecmp(pcVar6,"Host:",5);
+                if (iVar3 == 0) {
+                  sVar7 = strspn(pcVar6 + 5," \t");
+                  DAT_004201fc = (stat64 *)(pcVar6 + 5 + sVar7);
+                }
+                else {
+                  iVar3 = strncasecmp(pcVar6,"If-Modified-Since:",0x12);
+                  if (iVar3 == 0) {
+                    sVar7 = strspn(pcVar6 + 0x12," \t");
+                    DAT_00420200 = tdate_parse(pcVar6 + 0x12 + sVar7);
+                  }
+                  else {
+                    iVar3 = strncasecmp(pcVar6,"Referer:",8);
+                    if (iVar3 == 0) {
+                      sVar7 = strspn(pcVar6 + 8," \t");
+                      DAT_00420204 = pcVar6 + 8 + sVar7;
+                    }
+                    else {
+                      iVar3 = strncasecmp(pcVar6,"User-Agent:",0xb);
+                      if (iVar3 == 0) {
+                        sVar7 = strspn(pcVar6 + 0xb," \t");
+                        DAT_00420208 = (stat64 *)(pcVar6 + 0xb + sVar7);
+                      }
+                      else {
+                        iVar3 = strncasecmp(pcVar6,"Accept-Language:",0x10);
+                        if (iVar3 == 0) {
+                          sVar7 = strspn(pcVar6 + 0x10," \t");
+                          DAT_0042020c = pcVar6 + 0x10 + sVar7;
+                        }
+                        else {
+                          iVar3 = strncasecmp(pcVar6,"SOAPAction:",0xb);
+                          if (iVar3 == 0) {
+                            sVar7 = strspn(pcVar6 + 0xb," \t");
+                            pcVar6 = strcasestr(pcVar6 + 0xb + sVar7,"urn:NETGEAR-ROUTER:service:");
+                            iVar3 = 0;
+                            if (pcVar6 != (char *)0x0) {
+                              while( true ) {
+                                if (pcVar6[iVar3 + 0x1b] == ':') break;
+                                (&DAT_00420224)[iVar3] = pcVar6[iVar3 + 0x1b];
+                                iVar3 = iVar3 + 1;
+                              }
+                              (&DAT_00420224)[iVar3] = 0;
+                              Key_flag = 1;
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      pcVar6 = strstr((char *)DAT_004201c4,"/shares");
+      DAT_004202a8 = 0;
+      if (pcVar6 != (char *)0x0) {
+        cVar1 = pcVar6[7];
+        DAT_004202a8 = 1;
+        if ((((cVar1 != '/') && (cVar1 != ' ')) && (cVar1 != '\t')) && (cVar1 != '\r')) {
+          DAT_004202a8 = (uint)(cVar1 == '\n');
+        }
+      }
+      local_30 = DAT_004201fc;
+      pcVar6 = (char *)nvram_get("lan_ipaddr");
+      bVar2 = true;
+      iVar3 = strcmp((char *)local_30,pcVar6);
+      if (iVar3 != 0) {
+        pcVar6 = strstr((char *)DAT_004201fc,"aplogin");
+        bVar2 = pcVar6 != (char *)0x0;
+      }
+      local_30 = (stat64 *)&DAT_00410000;
+      pcVar6 = (char *)nvram_get("http_server_wan_enable");
+      if ((*pcVar6 == '1') && (pcVar6 = (char *)nvram_get("fw_remote"), *pcVar6 == '0')) {
+        pcVar6 = (char *)nvram_get("wifi_ap_mode");
+        if (pcVar6 == (char *)0x0) {
+          pcVar6 = "";
+        }
+        if (*pcVar6 == '1') {
+          if (!bVar2) {
+            local_30 = DAT_004201fc;
+            pcVar6 = (char *)FUN_00406090(&DAT_0040bf78);
+            iVar3 = strcmp((char *)local_30,pcVar6);
+            if (iVar3 != 0) goto LAB_00408268;
+          }
+          bVar2 = true;
+        }
+LAB_00408268:
+        iVar14 = 1;
+        if (!bVar2 && DAT_004202a8 == 0) goto LAB_0040a394;
+      }
+      pcVar6 = (char *)nvram_get("http_server_wan_enable");
+      if (((*pcVar6 == '0') && (pcVar6 = (char *)nvram_get("fw_remote"), *pcVar6 == '1')) &&
+         ((DAT_004202a8 != 0 && (iVar14 = 1, !bVar2)))) goto LAB_0040a394;
+      if (DAT_004202a8 != 0) {
+        DAT_004201a8 = 0;
+      }
+      FUN_004062c0();
+      pcVar6 = strstr((char *)DAT_004201c4,"setupwizard.cgi");
+      if (pcVar6 != (char *)0x0) {
+        Key_flag = 1;
+      }
+      if (Key_flag == 1) {
+        if (DAT_00420174 != '\0') {
+          local_40 = (char *)inet_network(&DAT_00420174);
+          local_30 = (stat64 *)&DAT_00410000;
+          pcVar6 = (char *)nvram_get_func("http_lan_ipaddr","/tmp/nvram.bcm");
+          if (pcVar6 == (char *)0x0) {
+            pcVar6 = "";
+          }
+          local_3c = (FILE *)inet_network(pcVar6);
+          pcVar6 = (char *)nvram_get_func("http_lan_netmask",
+                                          (undefined1 *)((int)&local_30[-0x9f].st_rdev + 4));
+          if (pcVar6 == (char *)0x0) {
+            pcVar6 = "";
+          }
+          iVar8 = inet_network(pcVar6);
+          if ((iVar8 & ((uint)local_3c ^ (uint)local_40)) == 0) goto LAB_00408404;
+        }
+        system("/bin/echo genie from wan, drop request now > /dev/console");
+        iVar14 = 0;
+LAB_0040a394:
+                    /* WARNING: Subroutine does not return */
+        exit(iVar14);
+      }
+LAB_00408404:
+      if (Key_flag == 1) {
+        system("/bin/echo it is for setupwizard! >> /tmp/sw.log");
+        local_30 = (stat64 *)&DAT_00420000;
+        snprintf(&DAT_004202ac,0x80,"%s","/setupwizard.cgi HTTP/1.1\r\n");
+        DAT_004201c4 = (stat64 *)((int)local_30 + 0x2ac);
+      }
+      else {
+        iVar3 = access("/tmp/dnshj.out",0);
+        if ((iVar3 == 0) &&
+           ((pcVar6 = strstr((char *)DAT_004201fc,"aplogin"), pcVar6 == (char *)0x0 ||
+            (iVar3 = strncmp((char *)DAT_004201c4,"/ ",2), iVar3 == 0)))) {
+          pcVar6 = DAT_0041ef6c;
+          if (DAT_0041ef6c == (char *)0x0) {
+            pcVar6 = "indexdnshj.htm";
+          }
+          local_30 = (stat64 *)&DAT_00420000;
+          snprintf(&DAT_004202ac,0x80,"/ca/setup.cgi?next_file=%s HTTP/1.1\r\n",pcVar6);
+          DAT_004201c4 = (stat64 *)((int)local_30 + 0x2ac);
+        }
+        local_30 = (stat64 *)&DAT_00410000;
+        iVar3 = access("/tmp/blank_state.out",0);
+        if (iVar3 == 0) {
+          pcVar6 = (char *)FUN_00403794(1);
+          iVar3 = strcasecmp(pcVar4,pcVar6);
+          if (iVar3 == 0) {
+            local_30 = DAT_004201c4;
+            pcVar6 = strstr((char *)DAT_004201c4,".htm");
+            if ((pcVar6 != (char *)0x0) ||
+               (iVar3 = strncmp((char *)local_30,"/ HTTP",6), iVar3 == 0)) {
+              local_30 = DAT_004201fc;
+              pcVar6 = (char *)nvram_get("lan_ipaddr");
+              iVar3 = strcmp((char *)local_30,pcVar6);
+              local_40 = &DAT_00000001;
+              if (iVar3 != 0) {
+                pcVar6 = strstr((char *)DAT_004201fc,"aplogin");
+                local_40 = (char *)(uint)(pcVar6 != (char *)0x0);
+              }
+              nvram_get("tm_action_internet");
+              local_30 = DAT_004201c4;
+              local_3c = (FILE *)strstr((char *)DAT_004201c4,"traffic_status.htm");
+              if (local_40 != (char *)0x0) {
+                pcVar6 = strstr((char *)local_30,"_h.htm");
+                local_30 = (stat64 *)(uint)(pcVar6 != (char *)0x0);
+                iVar3 = access("/tmp/tm_already_warning",0);
+                if ((iVar3 == 0) || (local_30 != (stat64 *)0x0)) goto LAB_00408898;
+              }
+              local_30 = (stat64 *)&DAT_00420000;
+              snprintf(&DAT_004202ac,0x80,"/ HTTP/1.1\r\n");
+              if (local_3c == (FILE *)0x0) {
+                local_3c = fopen64("/tmp/blank_state.out","r");
+                if (local_3c != (FILE *)0x0) {
+                  pcVar6 = fgets(auStack_4e60,99,local_3c);
+                  if ((pcVar6 == (char *)0x0) ||
+                     (pcVar6 = strstr(auStack_4e60,"htm"), pcVar6 == (char *)0x0)) {
+                    pcVar6 = strstr(auStack_4e60,"lan_wan_conflict");
+                    if ((pcVar6 == (char *)0x0) && (local_40 == (char *)0x0)) {
+                      snprintf(&DAT_004202ac,0x80,"/setup.cgi?next_file=%s HTTP/1.1\r\n","alert.htm"
+                              );
+                      DAT_004201c4 = (stat64 *)&DAT_004202ac;
+                    }
+                  }
+                  else {
+                    pcVar6[3] = '\0';
+                    snprintf(&DAT_004202ac,0x80,"/setup.cgi?next_file=%s HTTP/1.1\r\n",auStack_4e60)
+                    ;
+                    iVar3 = access("/tmp/tm_block_internet",0);
+                    if (iVar3 == 0) {
+                      local_30 = (stat64 *)&DAT_00410000;
+                      iVar3 = access("/tmp/tm_already_warning",0);
+                      if ((iVar3 != 0) &&
+                         (pcVar6 = (char *)fopen64((char *)((int)local_30 + -0x3bd0),"w+"),
+                         (FILE *)pcVar6 != (FILE *)0x0)) {
+                        pcVar21 = fclose;
+                        goto LAB_004087fc;
+                      }
+                    }
+                    else {
+                      pcVar21 = system;
+                      pcVar6 = "/usr/sbin/rc dnshj stop";
+LAB_004087fc:
+                      (*pcVar21)(pcVar6);
+                    }
+                    DAT_004201c4 = (stat64 *)&DAT_004202ac;
+                    DAT_0041e1fc = 0;
+                  }
+                  fclose(local_3c);
+                  DAT_004201a8 = 0;
+                }
+              }
+            }
+          }
+        }
+        else {
+          local_30 = (stat64 *)&DAT_00410000;
+          iVar3 = access("/tmp/tm_already_warning",0);
+          if (iVar3 == 0) {
+            unlink((char *)((int)local_30 + -0x3bd0));
+          }
+        }
+      }
+LAB_00408898:
+      local_30 = (stat64 *)&DAT_00410000;
+      iVar3 = access("/tmp/lan_ip_auto_changed",0);
+      if (iVar3 == 0) {
+        local_30 = DAT_00420208;
+        pcVar6 = strstr((char *)DAT_00420208,"Genie");
+        if ((pcVar6 == (char *)0x0) &&
+           (pcVar6 = strstr((char *)local_30,"LANWizard"), pcVar6 == (char *)0x0)) {
+          pcVar6 = (char *)FUN_00403794(1);
+          iVar3 = strcasecmp(pcVar4,pcVar6);
+          if (iVar3 == 0) {
+            local_30 = DAT_004201c4;
+            pcVar6 = strstr((char *)DAT_004201c4,".htm");
+            if ((((pcVar6 != (char *)0x0) ||
+                 (iVar3 = strncmp((char *)local_30,"/ HTTP",6), iVar3 == 0)) ||
+                (pcVar6 = strstr((char *)local_30,".aspx"), pcVar6 != (char *)0x0)) &&
+               (iVar3 = access("/tmp/conflict_warning",0), iVar3 != 0)) {
+              local_30 = (stat64 *)&DAT_00420000;
+              snprintf(&DAT_004202ac,0x80,"%s",
+                       "/setup.cgi?next_file=BRS_wanlan_conflict.html HTTP/1.1\r\n");
+              DAT_004201c4 = (stat64 *)((int)local_30 + 0x2ac);
+              system("/bin/cp /proc/uptime /tmp/conflict_warning");
+            }
+          }
+          DAT_0041e1fc = 0;
+          goto LAB_00408a04;
+        }
+      }
+      else {
+LAB_00408a04:
+        local_30 = (stat64 *)&DAT_00410000;
+        iVar3 = access("/tmp/conflict_warning",0);
+        if ((iVar3 == 0) &&
+           (pcVar6 = strstr((char *)DAT_004201c4,"settings.jpg"), pcVar6 != (char *)0x0)) {
+          system("/bin/touch /tmp/stop_conflict_warning");
+          unlink("/tmp/conflict_warning");
+        }
+        iVar3 = access("/tmp/conflict_warning",0);
+        if (iVar3 == 0) {
+          uVar23 = FUN_00403d0c("/tmp/conflict_warning");
+          local_38 = (stat64 *)((ulonglong)uVar23 >> 0x20);
+          local_34 = (undefined1 *)uVar23;
+          uVar23 = FUN_00403d0c("/proc/uptime");
+          uVar19 = (uint)uVar23 - (int)local_34;
+          if (((int)((ulonglong)uVar23 >> 0x20) - (int)local_38 != (uint)((uint)uVar23 < uVar19)) ||
+             (2 < uVar19)) {
+            unlink("/tmp/conflict_warning");
+            unlink("/tmp/lan_ip_auto_changed");
+            unlink("/tmp/stop_conflict_warning");
+            system("/usr/sbin/rc dnshj stop");
+          }
+        }
+      }
+      iVar3 = access("/tmp/brs_hijack.out",0);
+      if (iVar3 != 0) goto LAB_004090bc;
+      local_3c = (FILE *)FUN_00406090(&DAT_0040bf78);
+      iVar3 = strcmp((char *)DAT_004201fc,"www.msftncsi.com");
+      if ((iVar3 == 0) && (pcVar6 = strstr((char *)DAT_004201c4,"ncsi.txt"), pcVar6 != (char *)0x0))
+      {
+        DAT_004201d4 = "HTTP/1.0";
+        goto LAB_00409f50;
+      }
+      local_40 = (char *)socket(2,3,0xff);
+      if (local_40 == (char *)0xffffffff) {
+        pcVar21 = perror;
+        pcVar4 = "socket creating failed";
+LAB_0040a344:
+        (*pcVar21)(pcVar4);
+        return;
+      }
+      puVar9 = (undefined1 *)nvram_get("wan_ifname");
+      if (puVar9 == (undefined1 *)0x0) {
+        puVar9 = &DAT_0040be98;
+      }
+      snprintf(acStack_5ea0,0x10,"%s",puVar9);
+      iVar3 = ioctl((int)local_40,0x8915,acStack_5ea0);
+      if (iVar3 == 0) {
+        pcVar6 = inet_ntoa(local_5e8c);
+        local_40 = strdup(pcVar6);
+        psVar5 = DAT_004201fc;
+        pcVar6 = (char *)nvram_get("lan_ipaddr");
+        bVar2 = true;
+        iVar3 = strcmp((char *)psVar5,pcVar6);
+        psVar5 = DAT_004201fc;
+        if ((iVar3 != 0) && (pcVar6 = strstr((char *)DAT_004201fc,"aplogin"), pcVar6 == (char *)0x0)
+           ) {
+          pcVar6 = strstr((char *)psVar5,local_40);
+          bVar2 = pcVar6 != (char *)0x0;
+        }
+      }
+      else {
+        local_34 = &DAT_00410000;
+        pcVar6 = (char *)nvram_get("wifi_ap_mode");
+        if (pcVar6 == (char *)0x0) {
+          pcVar6 = "";
+        }
+        psVar5 = (stat64 *)0x0;
+        if (*pcVar6 != '\0') {
+          iVar3 = strcmp((char *)DAT_004201fc,(char *)local_3c);
+          psVar5 = (stat64 *)&DAT_00000001;
+          if (iVar3 == 0) {
+            pcVar6 = (char *)nvram_get(local_34 + -0x3c90);
+            if (pcVar6 == (char *)0x0) {
+              pcVar6 = "";
+            }
+            iVar3 = atoi(pcVar6);
+            psVar5 = (stat64 *)0x0;
+            if (iVar3 != 0) {
+              local_30 = DAT_004201fc;
+              pcVar6 = (char *)nvram_get("wifi_ap_name");
+              if (pcVar6 == (char *)0x0) {
+                pcVar6 = "";
+              }
+              pcVar6 = strcasestr((char *)local_30,pcVar6);
+              psVar5 = (stat64 *)(uint)(pcVar6 != (char *)0x0);
+            }
+          }
+        }
+        psVar20 = DAT_004201fc;
+        local_30 = psVar5;
+        pcVar6 = (char *)nvram_get("lan_ipaddr");
+        bVar2 = true;
+        iVar3 = strcmp((char *)psVar20,pcVar6);
+        if ((iVar3 != 0) && (pcVar6 = strstr((char *)DAT_004201fc,"aplogin"), pcVar6 == (char *)0x0)
+           ) {
+          bVar2 = local_30 != (stat64 *)0x0;
+        }
+      }
+      pcVar6 = (char *)FUN_00403794(1);
+      iVar3 = strcasecmp(pcVar4,pcVar6);
+      if ((((iVar3 == 0) && (pcVar6 = strstr((char *)DAT_004201c4,"BRS_"), pcVar6 == (char *)0x0))
+          && (iVar3 = access("/tmp/wizard_vlan",0), iVar3 != 0)) &&
+         (iVar3 = access("/tmp/conflict_warning",0), psVar5 = DAT_004201c4, iVar3 != 0)) {
+        if (!bVar2) goto LAB_00408fcc;
+        pcVar6 = strstr((char *)DAT_004201c4,"multi_login.html");
+        if (pcVar6 != (char *)0x0) goto LAB_004090bc;
+        pcVar6 = strstr((char *)psVar5,"/ HTTP");
+        if (pcVar6 == (char *)0x0) {
+          pcVar6 = strstr((char *)psVar5,".htm");
+          if (pcVar6 != (char *)0x0) goto LAB_00408fcc;
+          local_30 = asStack_5e60;
+          strcpy((char *)asStack_5e60,"/www");
+          pcVar6 = strchr((char *)psVar5,0x2f);
+          iVar3 = 4;
+          if (pcVar6 != (char *)0x0) {
+            for (; ((cVar1 = *pcVar6, cVar1 != ' ' && (cVar1 != '?')) && (iVar3 != 0xfff));
+                iVar3 = iVar3 + 1) {
+              *(char *)((int)&local_30->st_dev + iVar3) = cVar1;
+              pcVar6 = pcVar6 + 1;
+            }
+            *(undefined1 *)((int)&asStack_5e60[0].st_dev + iVar3) = 0;
+            iVar3 = access((char *)asStack_5e60,0);
+            if (iVar3 != 0) goto LAB_00408fcc;
+          }
+        }
+        else {
+LAB_00408fcc:
+          iVar3 = access("/tmp/brs_gui_hijack",0);
+          if (iVar3 != 0) {
+            if (bVar2) {
+              local_34 = &DAT_00410000;
+              pcVar6 = (char *)nvram_get("wifi_ap_mode");
+              if (pcVar6 == (char *)0x0) {
+                pcVar6 = "";
+              }
+              pcVar18 = local_34 + -0x3948;
+              if (*pcVar6 == '1') {
+                pcVar6 = "index.htm";
+              }
+              else {
+                pcVar6 = "BRS_index.htm";
+              }
+            }
+            else {
+              pcVar18 = "/setup.cgi?next_file=%s HTTP/1.1";
+              pcVar6 = "BRS_hijack_index.htm";
+            }
+            snprintf(&DAT_004202ac,0x80,pcVar18,pcVar6);
+            DAT_004201c4 = (stat64 *)&DAT_004202ac;
+            goto LAB_004090b0;
+          }
+          if (!bVar2) {
+            snprintf(&DAT_004202ac,0x80,"/setup.cgi?next_file=%s HTTP/1.1","BRS_hijack_success.htm")
+            ;
+            DAT_004201c4 = (stat64 *)&DAT_004202ac;
+            goto LAB_004090b8;
+          }
+        }
+      }
+      else {
+LAB_004090b0:
+        if (!bVar2) {
+LAB_004090b8:
+          DAT_0041e1fc = 0;
+        }
+      }
+LAB_004090bc:
+      pcVar6 = (char *)nvram_get("config_state");
+      if (pcVar6 == (char *)0x0) {
+        pcVar6 = "";
+      }
+      if (*pcVar6 == 'b') {
+LAB_0040911c:
+        nvram_set("need_not_login",&DAT_0040b78c);
+        nvram_set("start_in_blankstate","1");
+      }
+      else {
+        pcVar6 = (char *)nvram_get("need_not_login");
+        if (pcVar6 == (char *)0x0) {
+          pcVar6 = "";
+        }
+        if (*pcVar6 == '1') goto LAB_0040911c;
+      }
+      psVar5 = DAT_004201c4;
+      ppuVar22 = &PTR_s_currentsetting_htm_0041eb20;
+      do {
+        pcVar6 = *ppuVar22;
+        if (pcVar6 == (char *)0x0) {
+          pcVar6 = strstr((char *)psVar5,".gif");
+          if ((((pcVar6 != (char *)0x0) ||
+               (pcVar6 = strstr((char *)psVar5,".css"), pcVar6 != (char *)0x0)) ||
+              ((pcVar6 = strstr((char *)psVar5,".js"), pcVar6 != (char *)0x0 ||
+               (((pcVar6 = strstr((char *)psVar5,".xml"), pcVar6 != (char *)0x0 ||
+                 (pcVar6 = strstr((char *)psVar5,".png"), pcVar6 != (char *)0x0)) ||
+                (pcVar6 = strstr((char *)psVar5,".jpg"), pcVar6 != (char *)0x0)))))) &&
+             (((pcVar6 = strstr((char *)psVar5,".htm"), pcVar6 == (char *)0x0 &&
+               (pcVar6 = strstr((char *)psVar5,".html"), pcVar6 == (char *)0x0)) &&
+              (pcVar6 = strstr((char *)psVar5,".asp"), pcVar6 == (char *)0x0)))) break;
+          pcVar6 = strstr((char *)psVar5,"htpwd_recovery.cgi");
+          if (pcVar6 != (char *)0x0) {
+            pcVar6 = (char *)FUN_00403794(3);
+            iVar3 = strcasecmp(pcVar4,pcVar6);
+            if (iVar3 == 0) break;
+          }
+          pcVar6 = strstr((char *)psVar5,"PNPX_GetShareFolderList");
+          if (pcVar6 == (char *)0x0) goto LAB_00409304;
+          break;
+        }
+        ppuVar22 = ppuVar22 + 1;
+        pcVar6 = strstr((char *)psVar5,pcVar6);
+      } while (pcVar6 == (char *)0x0);
+      DAT_0041e1fc = 0;
+      DAT_004201a8 = 0;
+      pcVar6 = strstr((char *)psVar5,"currentsetting.htm");
+      if (pcVar6 != (char *)0x0) {
+        Key_flag = 1;
+      }
+LAB_00409304:
+      pcVar6 = (char *)nvram_get("http_password");
+      if (pcVar6 == (char *)0x0) {
+        pcVar6 = "";
+      }
+      bVar2 = true;
+      iVar14 = 0;
+      psVar5 = (stat64 *)0x0;
+      puVar9 = (undefined1 *)0x0;
+      psVar20 = (stat64 *)&DAT_0040c7a4;
+      for (iVar3 = 0; (cVar1 = pcVar6[iVar3], cVar1 != '\0' && (iVar3 != 0x21)); iVar3 = iVar3 + 1)
+      {
+        if ((byte)(cVar1 + 0xbfU) < 0x1a) {
+          puVar9 = puVar9 + 1;
+        }
+        else if ((byte)(cVar1 + 0x9fU) < 0x1a) {
+          psVar5 = (stat64 *)((int)&psVar5->st_dev + 1);
+        }
+        else if ((byte)(cVar1 - 0x30U) < 10) {
+          iVar14 = iVar14 + 1;
+        }
+        else {
+          local_38 = psVar20;
+          local_34 = puVar9;
+          local_30 = psVar5;
+          snprintf(auStack_4e60,10,(char *)psVar20);
+          pcVar18 = strstr("!@#$%^&*()",auStack_4e60);
+          bVar2 = (bool)(bVar2 & pcVar18 != (char *)0x0);
+          psVar5 = local_30;
+          puVar9 = local_34;
+          psVar20 = local_38;
+        }
+      }
+      if (((((puVar9 == (undefined1 *)0x0) ||
+            ((((psVar5 == (stat64 *)0x0 || (iVar14 == 0)) || (!bVar2)) || (0x18 < iVar3 - 8U)))) &&
+           (((iVar3 = strcmp(pcVar6,"sQ"), psVar5 = DAT_004201c4, iVar3 != 0 &&
+             (pcVar6 = strstr((char *)DAT_004201c4,"PWD"), pcVar6 == (char *)0x0)) &&
+            (pcVar6 = strstr((char *)psVar5,"index.htm"), pcVar6 == (char *)0x0)))) &&
+          ((pcVar6 = strstr((char *)psVar5,"/ HTTP/1.1"), pcVar6 == (char *)0x0 &&
+           (pcVar6 = strstr((char *)psVar5,"top"), pcVar6 == (char *)0x0)))) &&
+         ((pcVar6 = strstr((char *)psVar5,"CheckNewLang.html"), pcVar6 == (char *)0x0 &&
+          (pcVar6 = strstr((char *)psVar5,".htm"), pcVar6 != (char *)0x0)))) {
+        strcpy(&DAT_004202ac,"/setup.cgi?next_file=PWD_password.htm HTTP/1.1");
+        DAT_004201c4 = (stat64 *)&DAT_004202ac;
+      }
+      psVar5 = DAT_004201c4;
+      pcVar6 = strstr((char *)DAT_004201c4,".cgi");
+      if (((pcVar6 == (char *)0x0) &&
+          (pcVar6 = strstr((char *)psVar5,".htm"), pcVar6 != (char *)0x0)) &&
+         (pcVar6 = strstr((char *)psVar5,"shares"), pcVar6 == (char *)0x0)) {
+        sVar7 = strlen((char *)psVar5);
+        strncpy(&DAT_004202ac,(char *)psVar5,sVar7 - 8);
+        pcVar6 = strrchr(&DAT_004202ac,0x2f);
+        strncpy(&DAT_0042032c,&DAT_004202ac,(size_t)(pcVar6 + -0x4202ac));
+        if ((char)psVar5->st_dev == '/') {
+          sVar7 = strlen(&DAT_0042032c);
+          DAT_004201c4 = (stat64 *)((int)&psVar5->st_dev + sVar7 + 1);
+        }
+        snprintf(&DAT_004202ac,0x80,"%s/setup.cgi?next_file=%s",&DAT_0042032c,DAT_004201c4);
+        DAT_004201c4 = (stat64 *)&DAT_004202ac;
+      }
+      psVar5 = DAT_004201c4;
+      sVar7 = strspn((char *)DAT_004201c4," \t\n\r");
+      psVar5 = (stat64 *)((int)&psVar5->st_dev + sVar7);
+      DAT_004201c4 = psVar5;
+      DAT_004201d4 = strpbrk((char *)psVar5," \t\n\r");
+      if (DAT_004201d4 != (char *)0x0) {
+        *DAT_004201d4 = '\0';
+        DAT_004201d4 = DAT_004201d4 + 1;
+        pcVar6 = strchr((char *)psVar5,0x3f);
+        if (pcVar6 == (char *)0x0) {
+          DAT_004201d0 = "";
+        }
+        else {
+          *pcVar6 = '\0';
+          DAT_004201d0 = pcVar6 + 1;
+        }
+        pcVar6 = (char *)FUN_00403794(1);
+        iVar14 = strcasecmp(pcVar4,pcVar6);
+        iVar3 = 1;
+        if (iVar14 != 0) {
+          pcVar6 = (char *)FUN_00403794(2);
+          iVar3 = strcasecmp(pcVar4,pcVar6);
+          if (iVar3 == 0) {
+            DAT_004201c0 = 2;
+            iVar3 = DAT_004201c0;
+          }
+          else {
+            pcVar6 = (char *)FUN_00403794(3);
+            iVar14 = strcasecmp(pcVar4,pcVar6);
+            iVar3 = 3;
+            if (iVar14 != 0) {
+              uVar15 = 0x1f5;
+              pcVar6 = "Not Implemented";
+              pcVar18 = "";
+              pcVar4 = "That method is not implemented.";
+              goto LAB_0040a040;
+            }
+          }
+        }
+        DAT_004201c0 = iVar3;
+        psVar5 = DAT_004201c4;
+        FUN_00404a58(DAT_004201c4,DAT_004201c4);
+        if ((char)psVar5->st_dev == '/') {
+          psVar20 = (stat64 *)((int)&psVar5->st_dev + 1);
+          DAT_004201c8 = psVar20;
+          while( true ) {
+            pcVar4 = strstr((char *)psVar20,"//");
+            pcVar6 = pcVar4 + 2;
+            if (pcVar4 == (char *)0x0) break;
+            for (; *pcVar6 == '/'; pcVar6 = pcVar6 + 1) {
+            }
+            strcpy(pcVar4 + 1,pcVar6);
+          }
+          while (iVar3 = strncmp((char *)psVar20,"./",2), iVar3 == 0) {
+            strcpy((char *)psVar20,(char *)((int)&psVar5->st_dev + 3));
+          }
+          while (pcVar4 = strstr((char *)psVar20,"/./"), pcVar4 != (char *)0x0) {
+            strcpy(pcVar4,pcVar4 + 2);
+          }
+          do {
+            iVar3 = strncmp((char *)psVar20,"../",3);
+            psVar17 = psVar20;
+            psVar10 = psVar5;
+            if (iVar3 != 0) {
+              psVar10 = (stat64 *)strstr((char *)psVar20,"/../");
+              psVar16 = psVar10;
+              if (psVar10 == (stat64 *)0x0) goto LAB_00409988;
+              do {
+                psVar17 = psVar16;
+                psVar16 = (stat64 *)((int)&psVar17[-1].st_ino + 7);
+                if (psVar16 < psVar20) break;
+              } while ((char)psVar16->st_dev != '/');
+            }
+            strcpy((char *)psVar17,(char *)((int)&psVar10->st_dev + 4));
+          } while( true );
+        }
+        uVar15 = 400;
+        pcVar6 = "Bad Request";
+        pcVar18 = "";
+        pcVar4 = "Bad filename.";
+        goto LAB_0040a040;
+      }
+    }
+    else {
+      __pid = getppid();
+      kill(__pid,2);
+      psVar5 = DAT_004201c4;
+      sVar7 = strspn((char *)DAT_004201c4," \t\n\r");
+      DAT_004201c4 = (stat64 *)((int)&psVar5->st_dev + sVar7);
+      DAT_004201d4 = strpbrk((char *)DAT_004201c4," \t\n\r");
+      if (DAT_004201d4 != (char *)0x0) {
+        *DAT_004201d4 = '\0';
+        DAT_004201d4 = DAT_004201d4 + 1;
+        uVar15 = 0x191;
+        pcVar6 = "Unauthorized";
+        pcVar18 = "";
+        pcVar4 = "Authorization required.";
+        goto LAB_0040a040;
+      }
+    }
+  }
+  uVar15 = 400;
+  pcVar6 = "Bad Request";
+  pcVar18 = "";
+  pcVar4 = "Can\'t parse request.";
+LAB_0040a040:
+                    /* WARNING: Subroutine does not return */
+  FUN_0040555c(uVar15,pcVar6,pcVar18,pcVar4);
+LAB_00409988:
+  sVar7 = strlen((char *)psVar20);
+  if ((int)sVar7 < 4) goto LAB_004099c8;
+  psVar10 = (stat64 *)((int)psVar20 + (sVar7 - 3));
+  iVar3 = strcmp((char *)psVar10,"/..");
+  if (iVar3 != 0) goto LAB_004099c8;
+  do {
+    psVar10 = (stat64 *)((int)&psVar10[-1].st_ino + 7);
+    if (psVar10 < psVar20) goto LAB_004099c8;
+  } while ((char)psVar10->st_dev != '/');
+  *(undefined1 *)&psVar10->st_dev = 0;
+  goto LAB_00409988;
+LAB_004099c8:
+  if (*(char *)((int)&psVar5->st_dev + 1) == '\0') {
+    DAT_004201c8 = (stat64 *)&DAT_0040bae0;
+  }
+  psVar5 = DAT_004201c8;
+  cVar1 = (char)DAT_004201c8->st_dev;
+  if ((cVar1 == '/') ||
+     (((cVar1 == '.' && (*(char *)((int)&DAT_004201c8->st_dev + 1) == '.')) &&
+      ((cVar1 = *(char *)((int)&DAT_004201c8->st_dev + 2), cVar1 == '\0' || (cVar1 == '/')))))) {
+    uVar15 = 400;
+    pcVar6 = "Bad Request";
+    pcVar18 = "";
+    pcVar4 = "Illegal filename.";
+    goto LAB_0040a040;
+  }
+  if (DAT_0041ef24 != 0) {
+    psVar20 = DAT_004201fc;
+    psVar10 = DAT_004201fc;
+    psVar17 = DAT_004201fc;
+    if (DAT_004201fc == (stat64 *)0x0) {
+      local_5ebc = 0x10;
+      iVar3 = getsockname(DAT_00420170,(sockaddr *)auStack_4e60,&local_5ebc);
+      if (iVar3 < 0) {
+        psVar20 = (stat64 *)s_UNKNOWN_HOST_0040c884;
+        psVar10 = (stat64 *)s_UNKNOWN_HOST_0040c884;
+        psVar17 = (stat64 *)s_UNKNOWN_HOST_0040c884;
+      }
+      else {
+        psVar20 = (stat64 *)inet_ntoa((in_addr)auStack_4e60._4_4_);
+        psVar10 = psVar20;
+        psVar17 = psVar20;
+      }
+    }
+    while (DAT_004201e8 = psVar10, iVar3 = (int)(char)psVar20->st_dev, iVar14 = iVar3 * 2,
+          iVar3 != 0) {
+      if ((*(ushort *)(___ctype_b + iVar14) & 1) != 0) {
+        *(char *)&psVar20->st_dev = (char)*(undefined2 *)(___ctype_tolower + iVar14);
+      }
+      psVar20 = (stat64 *)((int)&psVar20->st_dev + 1);
+      psVar10 = DAT_004201e8;
+    }
+    snprintf(&DAT_004203ac,10000,"%s/%s",psVar17,psVar5);
+    DAT_004201c8 = (stat64 *)&DAT_004203ac;
+  }
+  alarm(0);
+  iVar3 = stat64((char *)DAT_004201c8,(stat64 *)sb);
+  psVar5 = DAT_004201c8;
+  if (-1 < iVar3) {
+LAB_00409c1c:
+    psVar5 = DAT_004201c8;
+    sVar7 = strlen((char *)DAT_004201c8);
+    pcVar4 = (char *)((int)&psVar5->st_dev + sVar7);
+    if ((sb._24_4_ & 0xf000) == 0x4000) {
+      if ((pcVar4[-1] == '/') || (DAT_004201cc != (stat64 *)0x0)) {
+        pcVar4 = local_5eb8;
+LAB_00409dd4:
+        if (pcVar4 != acStack_5ea0) goto LAB_00409d38;
+        iVar3 = access("/tmp/http_disable_lan",0);
+        if (iVar3 == 0) {
+          pcVar4 = (char *)nvram_get("lan_ipaddr");
+          iVar8 = inet_network(pcVar4);
+          pcVar4 = (char *)nvram_get("lan_netmask");
+          iVar11 = inet_network(pcVar4);
+          iVar12 = inet_network(&DAT_00420194);
+          if (((iVar12 ^ iVar8) & iVar11) != 0) goto LAB_00409e94;
+          pcVar6 = "The Share is not available";
+LAB_00409f1c:
+          uVar15 = 0x1f7;
+          pcVar18 = "";
+          pcVar4 = pcVar18;
+        }
+        else {
+LAB_00409e94:
+          iVar3 = access("/sys/bus/usb/devices/1-1",0);
+          if ((((iVar3 != 0) && (iVar3 = access("/sys/bus/usb/devices/1-2",0), iVar3 != 0)) &&
+              (iVar3 = access("/sys/bus/usb/devices/1-3",0), iVar3 != 0)) &&
+             (iVar3 = access("/sys/bus/usb/devices/1-4",0), iVar3 != 0)) {
+            pcVar6 = "No Shares Available";
+            goto LAB_00409f1c;
+          }
+          if (DAT_004201cc != (stat64 *)0x0) goto LAB_00409f50;
+          if (DAT_004202a8 == 0) {
+            FUN_00406adc(DAT_004201c8);
+          }
+          else {
+            FUN_004064fc();
+          }
+          FUN_00405728();
+          if ((DAT_004202a8 == 0) || (iVar3 = FUN_00405e00(DAT_004201c8,&DAT_0040be98), iVar3 != 0))
+          {
+            iVar3 = scandir64((char *)DAT_004201c8,&local_5ec8,(__selector *)0x0,alphasort64);
+            if (iVar3 < 0) {
+              pcVar4 = inet_ntoa(DAT_004201b0);
+              syslog(6,"%.80s Directory \"%.80s\" is protected",pcVar4,DAT_004201c4);
+              goto LAB_0040a038;
+            }
+            local_5ebc = 0;
+            iVar14 = snprintf(auStack_4e60,10000,
+                              "<HTML>\n<HEAD>\n<META http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n<TITLE>Index of %s</TITLE></HEAD>\n<BODY BGCOLOR=\"#99cc99\" TEXT=\"#000000\" LINK=\"#2020ff\" VLINK=\"#4040cc\">\n<H4>Index of %s</H4>\n<PRE>\n"
+                              ,DAT_004201c8,DAT_004201c8);
+            FUN_00403b3c(&local_5ec0,&local_5ebc,&local_5ec4,auStack_4e60,iVar14);
+            for (iVar14 = 0; iVar14 != iVar3; iVar14 = iVar14 + 1) {
+              pcVar4 = local_5ec8[iVar14]->d_name;
+              local_30 = DAT_004201c8;
+              snprintf(&DAT_00428328,2000,"%s/%s",DAT_004201c8,pcVar4);
+              if ((DAT_004202a8 == 0) || (iVar13 = FUN_00405e00(local_30,pcVar4), iVar13 != 0)) {
+                iVar13 = lstat64(&DAT_00428328,asStack_5e60);
+                psVar5 = (stat64 *)&DAT_0040be98;
+                if (-1 < iVar13) {
+                  iVar13 = strcmp(pcVar4,".");
+                  psVar5 = (stat64 *)&DAT_0040be98;
+                  if (iVar13 != 0) {
+                    iVar13 = strcmp(pcVar4,"..");
+                    if (iVar13 == 0) {
+                      iVar13 = strcmp((char *)DAT_004201c8,"shares/");
+                      psVar5 = (stat64 *)&DAT_0040be98;
+                      if (iVar13 != 0) {
+                        FUN_00405b38(pcVar4);
+                        snprintf(&DAT_00428328,2000,"<A HREF=\"%s\">[To Parent Directory]</A>\n",
+                                 &DAT_00428af8);
+                        psVar5 = (stat64 *)&DAT_00428328;
+                      }
+                    }
+                    else {
+                      __tp = localtime(&asStack_5e60[0].st_atim.tv_sec);
+                      strftime(acStack_5ea0,0x3c,"%A, %B %d, %Y  %l:%M %p",__tp);
+                      FUN_00405b38(pcVar4);
+                      snprintf(&DAT_00428328,2000,"%-40s %14lld     <A HREF=\"%s\">%s</A>\n",
+                               acStack_5ea0,asStack_5e60[0].st_blksize,asStack_5e60[0]._60_4_,
+                               &DAT_00428af8,pcVar4);
+                      psVar5 = (stat64 *)&DAT_00428328;
+                    }
+                  }
+                }
+              }
+              else {
+                psVar5 = (stat64 *)&DAT_00428328;
+                memset(&DAT_00428328,0,2000);
+              }
+              local_38 = psVar5;
+              sVar7 = strlen((char *)psVar5);
+              FUN_00403b3c(&local_5ec0,&local_5ebc,&local_5ec4,local_38,sVar7);
+            }
+            iVar3 = snprintf(auStack_4e60,10000,
+                             "</PRE>\n<HR>\n<ADDRESS><A HREF=\"%s\">%s</A></ADDRESS>\n</BODY>\n</HTML>\n"
+                             ,&DAT_0040be98,&DAT_0040be98);
+            FUN_00403b3c(&local_5ec0,&local_5ebc,&local_5ec4,auStack_4e60,iVar3);
+            FUN_00403d98(200,&DAT_0040c240,&DAT_0040be98,&DAT_0040be98,"text/html");
+            if (DAT_004201c0 != 2) {
+              FUN_00403c3c(local_5ec0,local_5ec4);
+            }
+            FUN_00405544();
+            goto LAB_0040a338;
+          }
+LAB_0040a038:
+          pcVar18 = "";
+          pcVar6 = "Forbidden";
+          uVar15 = 0x193;
+          pcVar4 = "Directory is protected.";
+        }
+        goto LAB_0040a040;
+      }
+      if (*DAT_004201d0 == '\0') {
+        snprintf(auStack_4e60,10000,"Location: %s/",DAT_004201c4);
+      }
+      else {
+        snprintf(auStack_4e60,10000,"Location: %s/?%s",DAT_004201c4,DAT_004201d0);
+      }
+      uVar15 = 0x12e;
+      pcVar6 = "Found";
+      pcVar18 = auStack_4e60;
+      pcVar4 = "Directories must end with a slash.";
+      goto LAB_0040a040;
+    }
+    while (pcVar4 = pcVar4 + -1, psVar5 = DAT_004201c8, *pcVar4 == '/') {
+      *pcVar4 = '\0';
+    }
+LAB_00409dc0:
+    DAT_004201c8 = psVar5;
+    FUN_00406f24();
+LAB_0040a338:
+    pcVar21 = SSL_free;
+    pcVar4 = (char *)DAT_00420210;
+    goto LAB_0040a344;
+  }
+  sVar7 = strlen((char *)DAT_004201c8);
+  DAT_004201cc = (stat64 *)((int)&psVar5->st_dev + sVar7);
+  while (psVar5 = DAT_004201c8, DAT_004201cc = (stat64 *)((int)&DAT_004201cc[-1].st_ino + 7),
+        DAT_004201c8 < DAT_004201cc) {
+    if ((char)DAT_004201cc->st_dev == '/') {
+      *(undefined1 *)&DAT_004201cc->st_dev = 0;
+      iVar3 = stat64((char *)psVar5,(stat64 *)sb);
+      if (-1 < iVar3) {
+        DAT_004201cc = (stat64 *)((int)&DAT_004201cc->st_dev + 1);
+        goto LAB_00409c1c;
+      }
+      *(undefined1 *)&DAT_004201cc->st_dev = 0x2f;
+    }
+  }
+  DAT_004201cc = (stat64 *)0x0;
+LAB_00409f50:
+  pcVar18 = "";
+  pcVar6 = "Not Found";
+  uVar15 = 0x194;
+  pcVar4 = "File not found.";
+  goto LAB_0040a040;
+LAB_00409d38:
+  local_38 = DAT_004201c8;
+  iVar3 = strcmp((char *)DAT_004201c8,"./");
+  if (iVar3 == 0) {
+    snprintf((char *)asStack_2750,10000,"%s",*(undefined4 *)pcVar4);
+  }
+  else {
+    snprintf((char *)asStack_2750,10000,"%s%s",local_38,*(undefined4 *)pcVar4);
+  }
+  pcVar4 = pcVar4 + 4;
+  iVar3 = stat64((char *)asStack_2750,(stat64 *)sb);
+  psVar5 = asStack_2750;
+  if (-1 < iVar3) goto LAB_00409dc0;
+  goto LAB_00409dd4;
+}
+
+
